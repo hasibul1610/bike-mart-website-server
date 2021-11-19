@@ -131,6 +131,7 @@ client.connect(err => {
         res.send(result);
     })
 
+    //Checking Admin Email
     app.get('/isAdmin', async (req, res) => {
         const email = req.query.email;
         if (email) {
