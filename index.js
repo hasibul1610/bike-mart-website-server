@@ -126,24 +126,17 @@ client.connect(err => {
         res.send(result);
     })
 
-    //Checking email on database
-    // app.get('/isAdmin', async (req, res) => {
-    //     const email = req.query.email;
-    //     if (email) {
-    //         const cursor = adminCollection.find({ email: email })
-    //         const isAdmin = await cursor.toArray();
-    //         res.send(isAdmin.length > 0);
-    //     }
-    //     console.log(isAdmin)
+    app.get('/isAdmin', async (req, res) => {
+        const email = req.query.email;
+        if (email) {
+            const cursor = adminCollection.find({ email: email })
+            const isAdmin = await cursor.toArray();
+            res.send(isAdmin.length > 0);
+        }
+        // console.log(isAdmin)
 
-    // })
-
-    app.get('/isAdmin/:email', async (req, res) => {
-        // console.log(req.params.email);
-        const result = await adminCollection.find({ email: req.params.email }).toArray();
-        // console.log(result);
-        res.send(result);
     })
+
 
 });
 
