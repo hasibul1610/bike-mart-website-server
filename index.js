@@ -26,6 +26,8 @@ client.connect(err => {
 
     const productCollection = client.db('bike-martDb').collection('products');
     const bookingCollection = client.db('bike-martDb').collection('bookings');
+    const reviewCollection = client.db('bike-martDb').collection('reviews');
+    const adminCollection = client.db('bike-martDb').collection('admins');
 
     //Add product to database
     app.post('/addProduct', async (req, res) => {
@@ -67,9 +69,16 @@ client.connect(err => {
 
     // delete order from booked
     app.delete('/deleteOrder/:id', async (req, res) => {
-        const result = await bookingsCollection.deleteOne({
+        const result = await bookingCollection.deleteOne({
             _id: ObjectId(req.params.id),
         });
+        // console.log(result);
+        res.send(result);
+    })
+
+    //Add review to database
+    app.post('/addReview', async (req, res) => {
+        const result = await reviewCollection.insertOne(req.body);
         // console.log(result);
         res.send(result);
     })
@@ -108,6 +117,13 @@ client.connect(err => {
                 // console.log(result);
                 res.send(result);
             })
+    })
+
+    //Add new Email in admin list 
+    app.post('/addAdmin', async (req, res) => {
+        const result = await adminCollection.insertOne(req.body);
+        // console.log(result);
+        res.send(result);
     })
 
 });
