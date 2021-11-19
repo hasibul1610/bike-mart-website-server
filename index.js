@@ -83,6 +83,11 @@ client.connect(err => {
         res.send(result);
     })
 
+    //get all reviews for admin
+    app.get('/reviews', async (req, res) => {
+        const result = await reviewCollection.find({}).toArray();
+        res.send(result);
+    })
     //get all products for admin
     app.get('/products', async (req, res) => {
         const result = await productCollection.find({}).toArray();
