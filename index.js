@@ -57,6 +57,59 @@ client.connect(err => {
         res.send(result);
     })
 
+    //my Booked order
+    app.get('/myOrders/:email', async (req, res) => {
+        // console.log(req.params.email);
+        const result = await bookingCollection.find({ email: req.params.email }).toArray();
+        // console.log(result);
+        res.send(result);
+    })
+
+    // delete order from booked
+    app.delete('/deleteOrder/:id', async (req, res) => {
+        const result = await bookingsCollection.deleteOne({
+            _id: ObjectId(req.params.id),
+        });
+        // console.log(result);
+        res.send(result);
+    })
+
+    //get all products for admin
+    app.get('/products', async (req, res) => {
+        const result = await productCollection.find({}).toArray();
+        res.send(result);
+    })
+
+    // delete any product by admin
+    app.delete('/deleteProduct/:id', async (req, res) => {
+        const result = await productCollection.deleteOne({
+            _id: ObjectId(req.params.id),
+        });
+        // console.log(result);
+        res.send(result);
+    })
+
+    //All Booking for admin to set the pending status to approved
+    app.get('/allOrders', async (req, res) => {
+        const result = await bookingCollection.find({}).toArray();
+        res.send(result);
+    })
+
+    //Updating the status
+    app.put('/updateStatus/:id', (req, res) => {
+        const id = req.params.id;
+        const updatedStatus = req.body.status;
+        const filter = { _id: ObjectId(id) }
+        // console.log(updatedStatus);
+        const result = bookingCollection.updateOne(filter, {
+            $set: { status: updatedStatus }
+        })
+            .then(result => {
+                // console.log(result);
+                res.send(result);
+            })
+    })
+
 });
 
 app.listen(port, () => {
